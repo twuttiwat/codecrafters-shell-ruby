@@ -1,7 +1,8 @@
-# Uncomment this block to pass the first stage
-$stdout.write("$ ")
+while true do
+  # Get input command
+  $stdout.write("$ ")
+  command, *args = gets.chomp.split(" ")
 
-# Wait for user input
-command, *args = gets.chomp.split(" ")
-
-$stdout.write("#{command}: command not found\n")
+  # Evaluate command
+  $stdout.write("#{command}: command not found\n")
+end
