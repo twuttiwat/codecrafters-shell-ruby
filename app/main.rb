@@ -1,6 +1,8 @@
 def in_path?(cmd)
-  ENV["PATH"].split(':').reverse.
-    find { |dir| File.exist?("#{dir}/#{cmd}") }
+  ENV["PATH"].split(':').find do |dir|
+    File.exist?("#{dir}/#{cmd}") &&
+    File.executable?("#{dir}/#{cmd}")
+  end
 end
 
 commands = {
@@ -10,6 +12,7 @@ commands = {
     if commands.key?(cmd.to_sym)
       puts "#{cmd} is a shell builtin"
     elsif path = in_path?(cmd)
+      # puts "path is #{path}"
       puts "#{cmd} is #{path}/#{cmd}"
     else
       puts "#{cmd}: not found"
