@@ -12,7 +12,6 @@ commands = {
     if commands.key?(cmd.to_sym)
       puts "#{cmd} is a shell builtin"
     elsif path = in_path?(cmd)
-      # puts "path is #{path}"
       puts "#{cmd} is #{path}/#{cmd}"
     else
       puts "#{cmd}: not found"
@@ -20,13 +19,16 @@ commands = {
   end
 }
 
-
 loop do
   $stdout.write("$ ")
   command, *args = gets.chomp.split(" ")
-  if !commands.key?(command.to_sym)
+
+  if commands.key?(command.to_sym)
+    commands[command.to_sym].call(*args)
+  elsif path = in_path?(command)
+    system("#{command}", *args)
+  else
     puts "#{command}: command not found"
-    next
   end
-  commands[command.to_sym].call(*args)
+
 end
